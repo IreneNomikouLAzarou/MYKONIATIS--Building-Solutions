@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MYKONIATIS – Τεχνική Εταιρεία</title>
+<style>
+  :root {
+    --sage: #8a9e85;
+    --sage-dark: #6b8566;
+    --slate: #6b6778;
+    --silver-light: #f0f0f0;
+    --silver-mid: #d4d4d4;
+    --silver-dark: #b0b0b0;
+    --charcoal: #2a2a2a;
+    --charcoal-mid: #444444;
+    --white: #ffffff;
+    --accent: #7a9e7e;
+    --sidebar-w: 240px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Georgia', serif; background: var(--silver-light); color: var(--charcoal); display:flex; min-height:100vh; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    min-height: 100vh;
+    background: var(--charcoal);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top:0; left:0; bottom:0;
+    z-index: 200;
+  }
+  .sidebar-logo {
+    padding: 36px 24px 28px;
+    border-bottom: 1px solid var(--slate);
+  }
+  .sidebar-logo .brand { color: var(--silver-light); font-size: 1.2rem; font-weight: bold; letter-spacing: 4px; }
+  .sidebar-logo .sub { color: var(--accent); font-style: italic; font-size: 0.78rem; letter-spacing: 1px; margin-top: 4px; }
+  .sidebar-nav { flex:1; padding: 20px 0; }
+  .sidebar-nav a {
+    display: block;
+    padding: 14px 28px;
+    color: var(--silver-mid);
+    text-decoration: none;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 2px;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .sidebar-nav a:hover, .sidebar-nav a.active {
+    color: var(--white);
+    border-left-color: var(--accent);
+    background: rgba(138,158,133,0.1);
+  }
+  .sidebar-bottom {
+    padding: 24px;
+    border-top: 1px solid var(--slate);
+  }
+  .lang-btn {
+    width: 100%;
+    background: var(--slate);
+    color: var(--white);
+    border: none;
+    padding: 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    font-family: 'Arial', sans-serif;
+    transition: background 0.2s;
+  }
+  .lang-btn:hover { background: var(--accent); }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    min-height: 100vh;
+  }
+
+  /* ── PANELS ── */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── HOME PANEL ── */
+  .hero {
+    background: linear-gradient(135deg, var(--sage) 0%, var(--slate) 50%, var(--charcoal) 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; bottom:0;
+    background: linear-gradient(180deg, transparent 40%, rgba(42,42,42,0.6) 100%);
+  }
+  .hero-geo {
+    position:absolute; top:0; left:0; width:100%; height:100%; opacity:0.12;
+  }
+  .hero-content { position:relative; z-index:2; }
+  .hero h1 {
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    color: var(--white);
+    letter-spacing: 10px;
+    text-shadow: 2px 4px 20px rgba(0,0,0,0.4);
+  }
+  .hero-sub {
+    color: var(--accent);
+    font-style: italic;
+    font-size: 1.2rem;
+    margin: 10px 0 30px;
+    letter-spacing: 2px;
+  }
+  .hero-tagline {
+    color: var(--silver-light);
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    max-width: 560px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    font-family: 'Arial', sans-serif;
+    font-weight: 300;
+  }
+  .hero-cta {
+    display: inline-block;
+    border: 2px solid var(--accent);
+    color: var(--white);
+    padding: 14px 40px;
+    text-decoration: none;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    font-family: 'Arial', sans-serif;
+    transition: background 0.3s;
+    cursor: pointer;
+  }
+  .hero-cta:hover { background: var(--accent); }
+
+  .stats {
+    background: var(--charcoal);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .stat {
+    padding: 40px 50px;
+    text-align: center;
+    border-right: 1px solid var(--slate);
+    flex: 1;
+    min-width: 140px;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num { font-size: 2.6rem; color: var(--accent); font-weight: bold; }
+  .stat-label { color: var(--silver-mid); font-size: 0.75rem; letter-spacing: 2px; font-family: 'Arial', sans-serif; margin-top: 5px; }
+
+  /* ── SERVICES PANEL ── */
+  .panel-inner { padding: 60px 50px; max-width: 1000px; }
+  .section-title {
+    font-size: 1.8rem;
+    color: var(--charcoal);
+    letter-spacing: 3px;
+    border-left: 4px solid var(--accent);
+    padding-left: 20px;
+    margin-bottom: 50px;
+  }
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px; }
+  .service-card {
+    background: var(--white);
+    border: 1px solid var(--silver-mid);
+    padding: 40px 30px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .service-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(107,103,120,0.15); }
+  .service-icon { margin-bottom: 25px; }
+  .service-card h3 { color: var(--charcoal); font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 15px; }
+  .service-card p { color: var(--charcoal-mid); font-size: 0.92rem; line-height: 1.7; font-family: 'Arial', sans-serif; }
+
+  /* ── GALLERY PANEL ── */
+  .gallery-panel { padding: 60px 50px; }
+  .gallery-panel .section-title { margin-bottom: 40px; }
+  .masonry {
+    columns: 3;
+    column-gap: 12px;
+  }
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, var(--silver-mid), var(--slate));
+    overflow: hidden;
+    position: relative;
+  }
+  .masonry-item img {
+    width: 100%;
+    display: block;
+    transition: transform 0.3s;
+  }
+  .masonry-item:hover img { transform: scale(1.04); }
+  .masonry-placeholder {
+    width: 100%;
+    background: linear-gradient(135deg, var(--silver-mid), var(--slate));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    font-family: 'Arial', sans-serif;
+    min-height: 200px;
+  }
+  .masonry-item:nth-child(3n+1) .masonry-placeholder { min-height: 240px; }
+  .masonry-item:nth-child(3n+2) .masonry-placeholder { min-height: 180px; }
+  .masonry-item:nth-child(3n)   .masonry-placeholder { min-height: 280px; }
+
+  /* ── ABOUT PANEL ── */
+  .about-panel { padding: 60px 50px; max-width: 900px; }
+  .about-lead {
+    font-size: 1.3rem;
+    color: var(--charcoal);
+    line-height: 1.9;
+    margin-bottom: 50px;
+    font-style: italic;
+  }
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-bottom: 50px; }
+  .why-item {
+    background: var(--white);
+    border-top: 3px solid var(--sage);
+    padding: 28px 22px;
+  }
+  .why-item h4 { color: var(--charcoal); letter-spacing: 1px; margin-bottom: 10px; font-size: 0.95rem; }
+  .why-item p { color: var(--charcoal-mid); font-size: 0.88rem; line-height: 1.6; font-family: 'Arial', sans-serif; }
+  .testimonial-block {
+    background: var(--charcoal);
+    padding: 50px 40px;
+    text-align: center;
+  }
+  .testimonial-text {
+    font-size: 1.2rem;
+    color: var(--silver-light);
+    max-width: 620px;
+    margin: 0 auto 20px;
+    line-height: 1.8;
+    font-style: italic;
+  }
+  .testimonial-author { color: var(--accent); font-family: 'Arial', sans-serif; letter-spacing: 2px; font-size: 0.85rem; }
+
+  /* ── CONTACT PANEL ── */
+  .contact-panel {
+    background: linear-gradient(135deg, var(--sage) 0%, var(--slate) 100%);
+    min-height: 100vh;
+    padding: 60px 50px;
+  }
+  .contact-inner { max-width: 680px; }
+  .contact-inner .section-title { color: var(--white); border-color: var(--white); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .contact-grid input,
+  .contact-grid textarea,
+  .contact-grid select {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: var(--white);
+    padding: 14px;
+    font-size: 0.95rem;
+    font-family: 'Arial', sans-serif;
+    outline: none;
+    width: 100%;
+  }
+  .contact-grid input::placeholder,
+  .contact-grid textarea::placeholder { color: rgba(255,255,255,0.6); }
+  .contact-grid textarea { grid-column: 1/-1; height: 120px; resize: none; }
+  .contact-grid select option { background: var(--charcoal); }
+  .submit-btn {
+    grid-column: 1/-1;
+    background: var(--charcoal);
+    color: var(--white);
+    border: none;
+    padding: 16px 40px;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: 'Arial', sans-serif;
+  }
+  .submit-btn:hover { background: var(--accent); }
+  .contact-info { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 20px; }
+  .contact-info a { color: rgba(255,255,255,0.85); text-decoration: none; font-family: 'Arial', sans-serif; font-size: 0.9rem; }
+  .contact-info a:hover { color: var(--white); }
+
+  /* ── MOBILE ── */
+  @media(max-width: 700px) {
+    .sidebar { width: 100%; min-height: auto; position: relative; flex-direction: row; flex-wrap: wrap; }
+    .main { margin-left: 0; }
+    .masonry { columns: 2; }
+    .panel-inner, .gallery-panel, .about-panel, .contact-panel { padding: 40px 20px; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .contact-grid textarea, .submit-btn { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">MYKONIATIS</div>
+    <div class="sub" data-el="Τεχνική Εταιρεία" data-en="Building Solutions">Τεχνική Εταιρεία</div>
+  </div>
+  <nav class="sidebar-nav">
+    <a onclick="showPanel('home')" class="active" data-el="ΑΡΧΙΚΗ" data-en="HOME">ΑΡΧΙΚΗ</a>
+    <a onclick="showPanel('about')" data-el="ΣΧΕΤΙΚΑ" data-en="ABOUT">ΣΧΕΤΙΚΑ</a>
+    <a onclick="showPanel('services')" data-el="ΥΠΗΡΕΣΙΕΣ" data-en="SERVICES">ΥΠΗΡΕΣΙΕΣ</a>
+    <a onclick="showPanel('gallery')" data-el="PORTFOLIO" data-en="PORTFOLIO">PORTFOLIO</a>
+    <a onclick="showPanel('contact')" data-el="ΕΠΙΚΟΙΝΩΝΙΑ" data-en="CONTACT">ΕΠΙΚΟΙΝΩΝΙΑ</a>
+  </nav>
+  <div class="sidebar-bottom">
+    <button class="lang-btn" onclick="toggleLang()">EN</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HOME -->
+  <div class="panel active" id="panel-home">
+    <div class="hero">
+      <svg class="hero-geo" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+        <polygon points="600,50 1100,700 100,700" fill="white"/>
+        <polygon points="200,0 800,0 500,600" fill="white"/>
+        <polygon points="900,0 1200,0 1200,400" fill="white"/>
+      </svg>
+      <div class="hero-content">
+        <h1>MYKONIATIS</h1>
+        <div class="hero-sub" data-el="Τεχνική Εταιρεία" data-en="Building Solutions">Τεχνική Εταιρεία</div>
+        <p class="hero-tagline" data-el="Μετατρέπουμε χώρους. Αναβαθμίζουμε κτίρια. Εγκαθιστούμε φωτοβολταϊκά.<br>Αποτελέσματα που μιλούν από μόνα τους." data-en="We transform spaces. We upgrade buildings. We install solar panels.<br>Results that speak for themselves.">
+          Μετατρέπουμε χώρους. Αναβαθμίζουμε κτίρια. Εγκαθιστούμε φωτοβολταϊκά.<br>Αποτελέσματα που μιλούν από μόνα τους.
+        </p>
+        <span class="hero-cta" onclick="showPanel('contact')" data-el="ΕΠΙΚΟΙΝΩΝΗΣΤΕ ΜΑΖΙ ΜΑΣ" data-en="GET IN TOUCH">ΕΠΙΚΟΙΝΩΝΗΣΤΕ ΜΑΖΙ ΜΑΣ</span>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">150+</div>
+        <div class="stat-label" data-el="ΟΛΟΚΛΗΡΩΜΕΝΑ ΕΡΓΑ" data-en="COMPLETED PROJECTS">ΟΛΟΚΛΗΡΩΜΕΝΑ ΕΡΓΑ</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">12+</div>
+        <div class="stat-label" data-el="ΧΡΟΝΙΑ ΕΜΠΕΙΡΙΑΣ" data-en="YEARS OF EXPERIENCE">ΧΡΟΝΙΑ ΕΜΠΕΙΡΙΑΣ</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">98%</div>
+        <div class="stat-label" data-el="ΙΚΑΝΟΠΟΙΗΣΗ ΠΕΛΑΤΩΝ" data-en="CLIENT SATISFACTION">ΙΚΑΝΟΠΟΙΗΣΗ ΠΕΛΑΤΩΝ</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">500kW</div>
+        <div class="stat-label" data-el="ΕΓΚΑΤΕΣΤΗΜΕΝΗ ΙΣΧΥΣ" data-en="INSTALLED CAPACITY">ΕΓΚΑΤΕΣΤΗΜΕΝΗ ΙΣΧΥΣ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="panel" id="panel-about">
+    <div class="about-panel">
+      <h2 class="section-title" data-el="ΣΧΕΤΙΚΑ ΜΕ ΕΜΑΣ" data-en="ABOUT US">ΣΧΕΤΙΚΑ ΜΕ ΕΜΑΣ</h2>
+      <p class="about-lead" data-el="Η MYKONIATIS είναι μια τεχνική εταιρεία με πάνω από 12 χρόνια εμπειρίας στις ανακαινίσεις, τα φωτοβολταϊκά και την ενεργειακή αναβάθμιση κτιρίων. Δουλεύουμε με σεβασμό στο χώρο σας και αποτελέσματα που φαίνονται." data-en="MYKONIATIS is a technical company with over 12 years of experience in renovations, photovoltaics and energy upgrades. We work with respect for your space and results that show.">
+        Η MYKONIATIS είναι μια τεχνική εταιρεία με πάνω από 12 χρόνια εμπειρίας στις ανακαινίσεις, τα φωτοβολταϊκά και την ενεργειακή αναβάθμιση κτιρίων. Δουλεύουμε με σεβασμό στο χώρο σας και αποτελέσματα που φαίνονται.
+      </p>
+      <div class="why-grid">
+        <div class="why-item">
+          <h4 data-el="ΕΜΠΕΙΡΙΑ" data-en="EXPERIENCE">ΕΜΠΕΙΡΙΑ</h4>
+          <p data-el="Πάνω από 12 χρόνια στον χώρο των κατασκευών και ανακαινίσεων." data-en="Over 12 years in construction and renovation.">Πάνω από 12 χρόνια στον χώρο των κατασκευών και ανακαινίσεων.</p>
+        </div>
+        <div class="why-item">
+          <h4 data-el="ΕΓΓΥΗΣΗ" data-en="GUARANTEE">ΕΓΓΥΗΣΗ</h4>
+          <p data-el="Εγγύηση σε όλες τις εργασίες. Το αποτέλεσμα πρέπει να σας ικανοποιεί απόλυτα." data-en="Guarantee on all works. The result must fully satisfy you.">Εγγύηση σε όλες τις εργασίες. Το αποτέλεσμα πρέπει να σας ικανοποιεί απόλυτα.</p>
+        </div>
+        <div class="why-item">
+          <h4 data-el="ΔΙΑΦΑΝΕΙΑ" data-en="TRANSPARENCY">ΔΙΑΦΑΝΕΙΑ</h4>
+          <p data-el="Σαφείς προσφορές, ξεκάθαρα χρονοδιαγράμματα, καμία κρυφή χρέωση." data-en="Clear quotes, defined timelines, no hidden charges.">Σαφείς προσφορές, ξεκάθαρα χρονοδιαγράμματα, καμία κρυφή χρέωση.</p>
+        </div>
+        <div class="why-item">
+          <h4 data-el="ΠΛΗΡΟΤΗΤΑ" data-en="COMPLETENESS">ΠΛΗΡΟΤΗΤΑ</h4>
+          <p data-el="Από την αδειοδότηση ως την παράδοση — αναλαμβάνουμε τα πάντα." data-en="From permits to delivery — we handle everything.">Από την αδειοδότηση ως την παράδοση — αναλαμβάνουμε τα πάντα.</p>
+        </div>
+      </div>
+      <div class="testimonial-block">
+        <p class="testimonial-text" data-el='"Εκπληκτικά αποτελέσματα. Το σπίτι μας μεταμορφώθηκε τελείως — γρήγορα, καθαρά, με σεβασμό στο χώρο μας."' data-en='"Exceptional results. Our home was completely transformed — fast, clean, with great respect for our space."'>
+          "Εκπληκτικά αποτελέσματα. Το σπίτι μας μεταμορφώθηκε τελείως — γρήγορα, καθαρά, με σεβασμό στο χώρο μας."
+        </p>
+        <div class="testimonial-author" data-el="— ΟΙΚΟΓΕΝΕΙΑ ΠΑΠΑΔΟΠΟΥΛΟΥ, ΑΘΗΝΑ" data-en="— PAPADOPOULOS FAMILY, ATHENS">— ΟΙΚΟΓΕΝΕΙΑ ΠΑΠΑΔΟΠΟΥΛΟΥ, ΑΘΗΝΑ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="panel" id="panel-services">
+    <div class="panel-inner">
+      <h2 class="section-title" data-el="ΥΠΗΡΕΣΙΕΣ" data-en="SERVICES">ΥΠΗΡΕΣΙΕΣ</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">
+            <svg width="60" height="60" viewBox="0 0 60 60">
+              <rect x="5" y="30" width="50" height="25" fill="none" stroke="#8a9e85" stroke-width="2"/>
+              <polygon points="30,5 5,30 55,30" fill="none" stroke="#6b6778" stroke-width="2"/>
+              <line x1="20" y1="55" x2="20" y2="38" stroke="#8a9e85" stroke-width="2"/>
+              <line x1="40" y1="55" x2="40" y2="38" stroke="#8a9e85" stroke-width="2"/>
+              <rect x="24" y="38" width="12" height="17" fill="#d4d4d4"/>
+            </svg>
+          </div>
+          <h3 data-el="ΑΝΑΚΑΙΝΙΣΕΙΣ" data-en="RENOVATIONS">ΑΝΑΚΑΙΝΙΣΕΙΣ</h3>
+          <p data-el="Ολοκληρωμένες ανακαινίσεις κατοικιών και επαγγελματικών χώρων. Ποιότητα που διαρκεί." data-en="Complete renovations for homes and commercial spaces. Quality that lasts.">Ολοκληρωμένες ανακαινίσεις κατοικιών και επαγγελματικών χώρων. Ποιότητα που διαρκεί.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <svg width="60" height="60" viewBox="0 0 60 60">
+              <polygon points="30,5 55,20 55,40 30,55 5,40 5,20" fill="none" stroke="#8a9e85" stroke-width="2"/>
+              <polygon points="30,15 45,23 45,37 30,45 15,37 15,23" fill="none" stroke="#6b6778" stroke-width="2"/>
+              <circle cx="30" cy="30" r="5" fill="#8a9e85"/>
+              <line x1="30" y1="5" x2="30" y2="15" stroke="#6b6778" stroke-width="1.5"/>
+              <line x1="30" y1="45" x2="30" y2="55" stroke="#6b6778" stroke-width="1.5"/>
+              <line x1="5" y1="30" x2="15" y2="30" stroke="#6b6778" stroke-width="1.5"/>
+              <line x1="45" y1="30" x2="55" y2="30" stroke="#6b6778" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <h3 data-el="ΦΩΤΟΒΟΛΤΑΪΚΑ" data-en="SOLAR PANELS">ΦΩΤΟΒΟΛΤΑΪΚΑ</h3>
+          <p data-el="Εγκατάσταση φωτοβολταϊκών συστημάτων για οικίες και επιχειρήσεις. Εξοικονομήστε ενέργεια." data-en="Installation of photovoltaic systems for homes and businesses. Save on energy costs.">Εγκατάσταση φωτοβολταϊκών συστημάτων για οικίες και επιχειρήσεις. Εξοικονομήστε ενέργεια.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <svg width="60" height="60" viewBox="0 0 60 60">
+              <rect x="8" y="20" width="44" height="30" rx="2" fill="none" stroke="#8a9e85" stroke-width="2"/>
+              <path d="M8 32 L52 32" stroke="#6b6778" stroke-width="1.5"/>
+              <path d="M20 20 L20 50" stroke="#6b6778" stroke-width="1.5"/>
+              <path d="M40 20 L40 50" stroke="#6b6778" stroke-width="1.5"/>
+              <path d="M30 8 Q38 14 30 20 Q22 14 30 8" fill="#8a9e85"/>
+            </svg>
+          </div>
+          <h3 data-el="ΕΝΕΡΓΕΙΑΚΗ ΑΝΑΒΑΘΜΙΣΗ" data-en="ENERGY UPGRADE">ΕΝΕΡΓΕΙΑΚΗ ΑΝΑΒΑΘΜΙΣΗ</h3>
+          <p data-el="Θερμομόνωση, αντικατάσταση κουφωμάτων, εξοικονόμηση ενέργειας. Εξοικονομώ κατ' Οίκον." data-en="Insulation, window replacement, energy efficiency. Complete energy upgrade solutions.">Θερμομόνωση, αντικατάσταση κουφωμάτων, εξοικονόμηση ενέργειας. Εξοικονομώ κατ' Οίκον.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GALLERY / PORTFOLIO -->
+  <div class="panel" id="panel-gallery">
+    <div class="gallery-panel">
+      <h2 class="section-title" data-el="ΤΑ ΕΡΓΑ ΜΑΣ" data-en="OUR PROJECTS">ΤΑ ΕΡΓΑ ΜΑΣ</h2>
+      <div class="masonry">
+        <!-- Αντικατέστησε τα src με τις δικές σου φωτογραφίες: src="images/foto1.jpg" -->
+        <div class="masonry-item"><div class="masonry-placeholder" data-el="ΑΝΑΚΑΙΝΙΣΗ 01" data-en="RENOVATION 01">ΑΝΑΚΑΙΝΙΣΗ 01</div></div>
+        <div class="masonry-item"><div class="masonry-placeholder" data-el="ΦΩΤΟΒΟΛΤΑΪΚΑ 01" data-en="SOLAR 01">ΦΩΤΟΒΟΛΤΑΪΚΑ 01</div></div>
+        <div class="masonry-item"><div class="masonry-placeholder" data-el="ΕΞΩΤΕΡΙΚΑ 01" data-en="EXTERIOR 01">ΕΞΩΤΕΡΙΚΑ 01</div></div>
+        <div class="masonry-item"><div class="masonry-placeholder" data-el="ΕΣΩΤΕΡΙΚΑ 01" data-en="INTERIOR 01">ΕΣΩΤΕΡΙΚΑ 01</div></div>
+        <div class="masonry-item"><div class="masonry-placeholder" data-el="ΑΝΑΚΑΙΝΙΣΗ 02" data-en="RENOVATION 02">ΑΝΑΚΑΙΝΙΣΗ 02</div></div>
+        <div class="masonry-item"><div class="masonry-placeholder" data-el="ΜΟΝΩΣΗ 01" data-en="INSULATION 01">ΜΟΝΩΣΗ 01</div></div>
+        <div class="masonry-item"><div class="masonry-placeholder" data-el="ΦΩΤΟΒΟΛΤΑΪΚΑ 02" data-en="SOLAR 02">ΦΩΤΟΒΟΛΤΑΪΚΑ 02</div></div>
+        <div class="masonry-item"><div class="masonry-placeholder" data-el="ΚΟΥΦΩΜΑΤΑ 01" data-en="WINDOWS 01">ΚΟΥΦΩΜΑΤΑ 01</div></div>
+        <div class="masonry-item"><div class="masonry-placeholder" data-el="ΕΣΩΤΕΡΙΚΑ 02" data-en="INTERIOR 02">ΕΣΩΤΕΡΙΚΑ 02</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="panel" id="panel-contact">
+    <div class="contact-panel">
+      <div class="contact-inner">
+        <h2 class="section-title" data-el="ΕΠΙΚΟΙΝΩΝΙΑ" data-en="CONTACT">ΕΠΙΚΟΙΝΩΝΙΑ</h2>
+        <div class="contact-grid">
+          <input type="text" placeholder="Ονοματεπώνυμο" data-ph-el="Ονοματεπώνυμο" data-ph-en="Full Name">
+          <input type="tel" placeholder="Τηλέφωνο" data-ph-el="Τηλέφωνο" data-ph-en="Phone">
+          <input type="email" placeholder="Email" data-ph-el="Email" data-ph-en="Email">
+          <select style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);color:white;padding:14px;font-size:0.95rem;font-family:Arial,sans-serif;">
+            <option data-el="Επιλέξτε υπηρεσία" data-en="Select a service">Επιλέξτε υπηρεσία</option>
+            <option data-el="Ανακαίνιση" data-en="Renovation">Ανακαίνιση</option>
+            <option data-el="Φωτοβολταϊκά" data-en="Solar Panels">Φωτοβολταϊκά</option>
+            <option data-el="Ενεργειακή Αναβάθμιση" data-en="Energy Upgrade">Ενεργειακή Αναβάθμιση</option>
+          </select>
+          <textarea placeholder="Το μήνυμά σας..." data-ph-el="Το μήνυμά σας..." data-ph-en="Your message..."></textarea>
+          <button class="submit-btn" data-el="ΑΠΟΣΤΟΛΗ" data-en="SEND">ΑΠΟΣΤΟΛΗ</button>
+        </div>
+        <div class="contact-info">
+          <a href="tel:6977283960">📞 6977283960</a>
+          <a href="mailto:info@mykoniatis.org">✉ info@mykoniatis.org</a>
+          <a href="https://www.mykoniatis.org">🌐 www.mykoniatis.org</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+let lang = 'el';
+
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  document.querySelectorAll('.sidebar-nav a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('onclick') === "showPanel('" + name + "')");
+  });
+  window.scrollTo(0,0);
+}
+
+function toggleLang() {
+  lang = lang === 'el' ? 'en' : 'el';
+  document.querySelector('.lang-btn').textContent = lang === 'el' ? 'EN' : 'ΕΛ';
+  document.querySelectorAll('[data-el]').forEach(el => {
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') return;
+    el.innerHTML = el.getAttribute('data-' + lang);
+  });
+  document.querySelectorAll('[data-ph-el]').forEach(el => {
+    el.placeholder = el.getAttribute('data-ph-' + lang);
+  });
+}
+</script>
+</body>
+</html>
