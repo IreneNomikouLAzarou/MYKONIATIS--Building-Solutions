@@ -108,28 +108,32 @@
     position:absolute; top:0; left:0; width:100%; height:100%; opacity:0.12;
   }
   .hero-content { position:relative; z-index:2; }
+
   .hero h1 {
-    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    font-size: clamp(3.2rem, 9vw, 7rem);
     color: var(--white);
-    letter-spacing: 10px;
+    letter-spacing: clamp(4px, 1vw, 10px);
     text-shadow: 2px 4px 20px rgba(0,0,0,0.4);
   }
+
   .hero-sub {
     color: var(--accent);
     font-style: italic;
-    font-size: 1.2rem;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
     margin: 10px 0 30px;
     letter-spacing: 2px;
   }
+
   .hero-tagline {
     color: var(--silver-light);
-    font-size: clamp(1rem, 2vw, 1.3rem);
-    max-width: 560px;
-    line-height: 1.8;
+    font-size: clamp(1.35rem, 3vw, 2.3rem);
+    max-width: 700px;
+    line-height: 1.4;
     margin-bottom: 40px;
     font-family: 'Arial', sans-serif;
     font-weight: 300;
   }
+
   .hero-cta {
     display: inline-block;
     border: 2px solid var(--accent);
@@ -137,7 +141,7 @@
     padding: 14px 40px;
     text-decoration: none;
     letter-spacing: 2px;
-    font-size: 0.9rem;
+    font-size: clamp(1rem, 1.8vw, 1.3rem);
     font-family: 'Arial', sans-serif;
     transition: background 0.3s;
     cursor: pointer;
@@ -158,8 +162,20 @@
     min-width: 140px;
   }
   .stat:last-child { border-right: none; }
-  .stat-num { font-size: 2.6rem; color: var(--accent); font-weight: bold; }
-  .stat-label { color: var(--silver-mid); font-size: 0.75rem; letter-spacing: 2px; font-family: 'Arial', sans-serif; margin-top: 5px; }
+
+  .stat-num {
+    font-size: clamp(2.8rem, 5vw, 4rem);
+    color: var(--accent);
+    font-weight: bold;
+  }
+
+  .stat-label {
+    color: var(--silver-mid);
+    font-size: clamp(0.95rem, 1.7vw, 1.25rem);
+    letter-spacing: 2px;
+    font-family: 'Arial', sans-serif;
+    margin-top: 5px;
+  }
 
   /* ── SERVICES PANEL ── */
   .panel-inner { padding: 60px 50px; max-width: 1000px; }
@@ -301,6 +317,49 @@
     .panel-inner, .gallery-panel, .about-panel, .contact-panel { padding: 40px 20px; }
     .contact-grid { grid-template-columns: 1fr; }
     .contact-grid textarea, .submit-btn { grid-column: 1; }
+
+    .hero {
+      min-height: 90vh;
+      padding: 50px 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 13vw, 4rem);
+      letter-spacing: clamp(2px, 1vw, 6px);
+      word-break: break-word;
+    }
+
+    .hero-sub {
+      font-size: clamp(1.2rem, 6vw, 1.7rem);
+    }
+
+    .hero-tagline {
+      font-size: clamp(1.15rem, 5.5vw, 1.6rem);
+      line-height: 1.45;
+      max-width: 100%;
+    }
+
+    .hero-cta {
+      font-size: clamp(0.9rem, 4vw, 1.05rem);
+      padding: 14px 20px;
+      max-width: 100%;
+      line-height: 1.4;
+    }
+
+    .stat {
+      padding: 30px 20px;
+      min-width: 100%;
+      border-right: none;
+      border-bottom: 1px solid var(--slate);
+    }
+
+    .stat-num {
+      font-size: clamp(2.5rem, 10vw, 3.4rem);
+    }
+
+    .stat-label {
+      font-size: clamp(0.9rem, 4vw, 1.1rem);
+    }
   }
 </style>
 </head>
