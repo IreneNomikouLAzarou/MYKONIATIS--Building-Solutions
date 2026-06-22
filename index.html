@@ -1252,19 +1252,20 @@ Free home energy assessment. Energy Performance Certificate (EPC) issuance."><st
     <div class="contact-panel">
       <div class="contact-inner">
         <h2 class="section-title" data-el="ΕΠΙΚΟΙΝΩΝΙΑ" data-en="CONTACT">ΕΠΙΚΟΙΝΩΝΙΑ</h2>
-        <div class="contact-grid">
-          <input type="text" placeholder="Ονοματεπώνυμο" data-ph-el="Ονοματεπώνυμο" data-ph-en="Full Name">
-          <input type="tel" placeholder="Τηλέφωνο" data-ph-el="Τηλέφωνο" data-ph-en="Phone">
-          <input type="email" placeholder="Email" data-ph-el="Email" data-ph-en="Email">
-          <select style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);color:white;padding:14px;font-size:0.95rem;font-family:Arial,sans-serif;">
+        <form action="https://api.web3forms.com/submit" method="POST" class="contact-grid">
+          <input type="hidden" name="access_key" value="d253a38a-9c65-4c42-93bd-42c0683aadd3">
+          <input type="text" name="name" placeholder="Ονοματεπώνυμο" data-ph-el="Ονοματεπώνυμο" data-ph-en="Full Name" required>
+          <input type="tel" name="phone" placeholder="Τηλέφωνο" data-ph-el="Τηλέφωνο" data-ph-en="Phone">
+          <input type="email" name="email" placeholder="Email" data-ph-el="Email" data-ph-en="Email" required>
+          <select name="service" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);color:white;padding:14px;font-size:0.95rem;font-family:Arial,sans-serif;">
             <option data-el="Επιλέξτε υπηρεσία" data-en="Select a service">Επιλέξτε υπηρεσία</option>
             <option data-el="Ανακαίνιση" data-en="Renovation">Ανακαίνιση</option>
             <option data-el="Ενεργειακή Αναβάθμιση" data-en="Energy Upgrade">Ενεργειακή Αναβάθμιση</option>
             <option data-el="Ενεργειακή Αυτονομία" data-en="Energy Autonomy">Ενεργειακή Αυτονομία</option>
           </select>
-          <textarea placeholder="Το μήνυμά σας..." data-ph-el="Το μήνυμά σας..." data-ph-en="Your message..."></textarea>
-          <button class="submit-btn" data-el="ΑΠΟΣΤΟΛΗ" data-en="SEND">ΑΠΟΣΤΟΛΗ</button>
-        </div>
+          <textarea name="message" placeholder="Το μήνυμά σας..." data-ph-el="Το μήνυμά σας..." data-ph-en="Your message..." required></textarea>
+          <button type="submit" class="submit-btn" data-el="ΑΠΟΣΤΟΛΗ" data-en="SEND">ΑΠΟΣΤΟΛΗ</button>
+        </form>
         <div class="contact-info">
           <a href="tel:6977283960">📞 6977283960</a>
           <a href="mailto:info@mykoniatis.org">✉ info@mykoniatis.org</a>
